@@ -1,0 +1,13 @@
+<div class="container">
+  @if (errorMessage$ | async; as errorMessage) {
+    <p class="fallback-text">{{ errorMessage }}</p>
+  } @else {
+    @if (planets$ | async; as planets) {
+      <app-distance-form [planets]="planets"></app-distance-form>
+    }
+    <div class="d-flex flex-row justify-content-center gap-5">
+      <app-routes></app-routes>
+      <app-planets-route></app-planets-route>
+    </div>
+  }
+</div>

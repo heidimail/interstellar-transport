@@ -1,0 +1,8 @@
+@if (routePlanets && routePlanets.length) {
+   <p>Planets on Route taken:</p>
+   <ul>
+      @for (planet of routePlanets; track planet.id) {
+         <li>{{ planet.name }}</li>
+      }
+   </ul>
+}

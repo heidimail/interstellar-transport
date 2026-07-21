@@ -5,12 +5,14 @@ Application to calculate the shortest path and distance between planet Earth and
 
 ## Get Started
 To start up front end
-cd interstellar-frontend
+- cd interstellar-frontend
+- run ng serve
 
 A few ways you could start the backend
-- in VS code in you have Spring Boot Dashbaord, you can click run/play on the interstellartransportsystem
-- in VS code on the command line, run 
-- in any JAVA IDE you can click run/play to start project
+- cd interstellartransportsystem
+-- in VS code in you have Spring Boot Dashbaord, you can click run/play on the interstellartransportsystem
+-- in VS code on the command line, run 
+-- in any JAVA IDE you can click run/play to start project
 
 ## Built With
 * Angular 

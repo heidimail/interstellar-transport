@@ -3,11 +3,22 @@
     <p class="fallback-text">{{ errorMessage }}</p>
   } @else {
     @if (planets$ | async; as planets) {
-      <app-distance-form [planets]="planets"></app-distance-form>
+      <app-distance-form
+        [planets]="planets"
+        (submittedSearch)="searchSubmitted($event)"
+        (selectedDestinationName)="onDestinationSelected($event)"
+      ></app-distance-form>
     }
-    <div class="d-flex flex-row justify-content-center gap-5 m-3">
-      <app-routes></app-routes>
-      <app-planets-route></app-planets-route>
+    @if (searching) {
+      <div>Loading Route Taken from <strong>Earth</strong> to <strong>{{ selectedDestinationName() }}</strong>...</div>
+    }
+
+    <div [hidden]="!distanceFound()">
+      <div>The Route from <strong>Earth</strong> to <strong>{{ selectedDestinationName() }}</strong>:</div>
+      <div class="d-flex flex-row justify-content-center gap-5 m-3">
+        <app-routes (distanceFound)="onDistanceFound($event)"></app-routes>
+        <app-planets-route></app-planets-route>
+      </div>
     </div>
   }
 </div>

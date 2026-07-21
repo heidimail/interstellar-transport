@@ -1,8 +1,8 @@
-import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal, input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { PlanetsService } from './planets.service';
 import { DistanceForm } from '../distance-form/distance-form';
-import { PlanetsRoute } from "./planets-route/planets-route";
+import { PlanetsRoute } from './planets-route/planets-route';
 import { Routes } from '../routes/routes.component';
 
 @Component({
@@ -15,4 +15,21 @@ export class Planets {
   private planetsService = inject(PlanetsService);
   planets$ = this.planetsService.planets$;
   errorMessage$ = this.planetsService.errorMessage$;
+  selectedDestinationName = signal<string>('');
+  distanceFound = signal<boolean>(false);
+  searching = false;
+
+  searchSubmitted(submitted: boolean) {
+    this.searching = true;
+    this.distanceFound.set(false);
+  }
+
+  onDestinationSelected(destinationName: string) {
+    this.selectedDestinationName.set(destinationName);
+  }
+
+  onDistanceFound(found: boolean) {
+    this.distanceFound.set(found);
+    this.searching = false;
+  }
 }

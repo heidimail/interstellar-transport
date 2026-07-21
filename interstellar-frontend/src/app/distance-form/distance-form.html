@@ -4,8 +4,8 @@
   </h4>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <!-- TODO: consider using select2 or something similar here instead to be able to search planets -->
-    <div class="dropdown d-flex flex-column gap-3">
-      <label for="planetDestinationDropdown" class="form-label">Pick a Destination Planet From the Dropdown: </label>
+    <div class="dropdown d-flex flex-column gap-3 m-3">
+      <label for="planetDestinationDropdown" class="form-label">Pick a Destination Planet from the Dropdown: </label>
       <div class="d-flex flex-column align-items-center gap-3">
         <button
           class="btn btn-secondary dropdown-toggle w-25"
@@ -14,7 +14,7 @@
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          {{ selectedDestinationName || 'Select destination' }}
+          {{ selectedDestination() || 'Select destination' }}
         </button>
         <ul class="dropdown-menu" aria-labelledby="planetDestinationDropdown">
           @for (planet of otherPlanets(); track planet.id) {
@@ -25,7 +25,7 @@
             </li>
           }
         </ul>
-        @if (selectedDestinationName) {
+        @if (selectedDestination()) {
           <button type="submit" class="btn btn-primary w-25">
             Get Fastest Route!
           </button>
@@ -33,10 +33,4 @@
       </div>
     </div>
   </form>
-
-  <!-- TO DO: add a loading on submitted search and then use signal to know when to hide -->
-  <!-- @if (submittedSearch()) {
-    <div>Route Taken from Earth to {{ selectedDestinationName }}:</div>
-  } -->
 </div>
-

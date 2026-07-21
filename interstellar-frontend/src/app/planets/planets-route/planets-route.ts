@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, effect } from '@angular/core';
 import { RoutesService } from '../../routes/routes.service';
 import { PlanetsService } from '../planets.service';
 import { Planet } from '../planets.model';
@@ -14,19 +14,16 @@ export class PlanetsRoute {
   private routesService = inject(RoutesService);
   private planetsService = inject(PlanetsService);
 
-  ngDoCheck() {
-    const routeTaken = this.routesService.getRouteTaken();
-    if (routeTaken.length) {
-      console.log('routeTaken', routeTaken);
-      //get all nodes and then make sure unique
-      const nodes = routeTaken.flatMap(route => [route.planetOrigin, route.planetDestination]);
-      const uniqueNodes = Array.from(new Set(nodes));
-      console.log('uniqueNodes', uniqueNodes);
-      //take the unque node list and get the planets from the planet service
-      const planets = this.planetsService.findPlanetsByNodes(uniqueNodes as string[]);
-      this.routePlanets = planets;
-    }
-  }
-
+  constructor() {
+     effect(() => {
+       const routeTaken = this.routesService.routeTaken();
+       if (routeTaken.length) {
+         const nodes = routeTaken.flatMap(route => [route.planetOrigin, route.planetDestination]);
+         const uniqueNodes = Array.from(new Set(nodes));
+         const planets = this.planetsService.findPlanetsByNodes(uniqueNodes as string[]);
+         this.routePlanets = planets;
+       }
+     });
+   }
 
 }

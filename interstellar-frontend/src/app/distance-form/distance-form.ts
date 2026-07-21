@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Planet } from '../planets/planets.model';
 import { RoutesService } from '../routes/routes.service';
@@ -11,8 +11,10 @@ import { RoutesService } from '../routes/routes.service';
 })
 export class DistanceForm {
   planets = input.required<Planet[]>();
-  submittedSearch = signal(false);
-  selectedDestinationName?: string = '';
+  submittedSearch = output<boolean>();
+  selectedDestinationName = output<string>();
+  protected selectedDestination = signal<string>('');
+  
   form = new FormGroup({
     planetDestination: new FormControl('', {
       validators: [],
@@ -28,13 +30,15 @@ export class DistanceForm {
 
   selectDestination(planet: Planet): void {
     this.form.get('planetDestination')?.setValue(planet.node);
-    this.selectedDestinationName = planet.name;
+    this.selectedDestination.set(planet.name);
+    this.selectedDestinationName.emit(planet.name);
   }
 
   onSubmit() {
     this.routesService.findQuickestRoute(
       this.form.value.planetDestination!,
     );
-    this.submittedSearch.set(true);
+    this.submittedSearch.emit(true);
+
   }
 }

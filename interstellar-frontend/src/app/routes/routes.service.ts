@@ -16,9 +16,8 @@ export class RoutesService {
   private routeCount: number = 0;
   private totalDistance: number = 0;
   private routeTaken: Route[] = [];
-//   private planets = signal<Planet[]>([]);
 
-// maybe below create observable instead?
+// maybe below create observable instead of ngOnCheck?
   public getTotalDistance(): number {
     return this.totalDistance;
   }
@@ -45,7 +44,6 @@ export class RoutesService {
 
   //TO DO: below gets quickest route. Will need to also figure out quickest distance...  
   public findQuickestRoute(planetDestination: string): void {
-    //reset routeTaken and totalDistance and routeOptions
     this.routeTaken = [];
     this.totalDistance = 0;
     this.routeOptions = [];
@@ -68,20 +66,13 @@ export class RoutesService {
   }
 
   private evaluateRoute(startingRoutes: Route[], endingRoutes: Route[]): void {
-    console.log('Starting routes:', startingRoutes);
-    console.log('Ending routes:', endingRoutes);
-
-    // Check for a direct route first — same route satisfying both origin and destination
-    //move to central location?
-    //TO DO: need to add to routeTaken.
     const directRoute = startingRoutes.find((start) =>
       endingRoutes.some((end) => end.id === start.id),
     );
     if (directRoute) {
         this.routeTaken = [directRoute];
         this.addUpRouteDistances(this.routeTaken);
-      console.log('Direct route found:', directRoute);
-      return;
+        return;
     }
 
     this.routeCount = 1;
@@ -89,27 +80,23 @@ export class RoutesService {
     for (const startRoute of startingRoutes) {
       for (const endRoute of endingRoutes) {
         if (startRoute.planetDestination === endRoute.planetOrigin) {
-            //TO DO>::: need to add to route taken
             this.routeTaken = [startRoute, endRoute];
             this.addUpRouteDistances(this.routeTaken);
           console.log('Potential connecting route:', startRoute, '->', endRoute);
           foundConnectingRoute = true;
-          return; // Found a connecting route, no need to continue searching
+          return;
         }
       }
     }
     if (!foundConnectingRoute) {
-      console.log('No route found from starting routes to ending routes');
       this.getNextBestRoute();
     }
   }
 
   private getNextBestRoute(): void {
     this.routeCount++;
-    console.log('Route count:', this.routeCount);
     console.log('Evaluating next best route from route options:', this.routeOptions);
     if (this.routeOptions.length === 0) {
-      console.log('No route options available');
       return;
     }
     // Implement logic to evaluate and select the next best route from this.routeOptions

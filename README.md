@@ -1,1 +1,22 @@
-# interstellar-transport
+# Interstellar Transport
+
+## Description
+Application to calculate the shortest path and distance between planet Earth and another destination planet in the year 2145. 
+
+## Get Started
+To start up front end
+cd interstellar-frontend
+
+A few ways you could start the backend
+- in VS code in you have Spring Boot Dashbaord, you can click run/play on the interstellartransportsystem
+- in VS code on the command line, run 
+- in any JAVA IDE you can click run/play to start project
+
+## Built With
+* Angular 
+* Spring Boot
+* Derby DB
+* Bootstrap
+
+## Repository 
+https://github.com/heidimail/interstellar-transport

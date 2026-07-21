@@ -41,7 +41,7 @@ public class PlanetsDAOImpl implements PlanetsDAO {
 
     }
 
-    //TO DO: use CRUD repository or create separate files for Routes
+    //TO DO: use CRUD repository or create separate DAO files for Routes
     @Override
     public List<Routes> findAllRoutes() {
         TypedQuery<Routes> theQuery = entityManager.createQuery("FROM Routes", Routes.class);

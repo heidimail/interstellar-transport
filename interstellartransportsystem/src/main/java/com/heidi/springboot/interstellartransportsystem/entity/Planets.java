@@ -31,6 +31,9 @@ public class Planets {
         this.name = name;
     }
 
+    public Planets(String node, String name) {
+    }
+
     //define getters/setters
 
     public int getId() {
@@ -57,7 +60,7 @@ public class Planets {
         this.name = name;
     }
 
-    //deinf toString()
+    //define toString()
 
     @Override
     public String toString() {

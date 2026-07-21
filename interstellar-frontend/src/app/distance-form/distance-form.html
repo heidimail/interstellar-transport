@@ -6,33 +6,35 @@
     <!-- TODO: consider using select2 or something similar here instead to be able to search planets -->
     <div class="dropdown d-flex flex-column gap-3">
       <label for="planetDestinationDropdown" class="form-label">Pick a Destination Planet From the Dropdown: </label>
-      <button
-        class="btn btn-secondary dropdown-toggle"
-        type="button"
-        id="planetDestinationDropdown"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        {{ selectedDestinationName || 'Select destination' }}
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="planetDestinationDropdown">
-        @for (planet of otherPlanets(); track planet.id) {
-          <li>
-            <button type="button" class="dropdown-item" (click)="selectDestination(planet)">
-              {{ planet.name }}
-            </button>
-          </li>
-        }
-      </ul>
-      @if (selectedDestinationName) {
-        <button type="submit" class="btn btn-primary">
-          Get Fastest Route!
+      <div class="d-flex flex-column align-items-center gap-3">
+        <button
+          class="btn btn-secondary dropdown-toggle w-25"
+          type="button"
+          id="planetDestinationDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          {{ selectedDestinationName || 'Select destination' }}
         </button>
-      }
-
+        <ul class="dropdown-menu" aria-labelledby="planetDestinationDropdown">
+          @for (planet of otherPlanets(); track planet.id) {
+            <li>
+              <button type="button" class="dropdown-item" (click)="selectDestination(planet)">
+                {{ planet.name }}
+              </button>
+            </li>
+          }
+        </ul>
+        @if (selectedDestinationName) {
+          <button type="submit" class="btn btn-primary w-25">
+            Get Fastest Route!
+          </button>
+        }
+      </div>
     </div>
   </form>
 
+  <!-- TO DO: add a loading on submitted search and then use signal to know when to hide -->
   <!-- @if (submittedSearch()) {
     <div>Route Taken from Earth to {{ selectedDestinationName }}:</div>
   } -->

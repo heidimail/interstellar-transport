@@ -17,10 +17,15 @@ public class InterstellartransportsystemApplication {
 	}
 
 	@Bean
-	//because it will be a command line application
+	//TO DO: Move these to use later, right now all this happens on app initialization on command line
+	//TO DO: move all functions to restContoller to use in front end.
 	public CommandLineRunner commandLineRunner(PlanetsDAO planetsDAO) {
 		return runner -> {
 			//queryForPlanets(planetsDAO);
+			queryForPlanetById(planetsDAO);
+			//createPlanet(planetsDAO);
+			//updatePlanet(planetsDAO);
+			//deletePlanet(planetsDAO);
 		};
 
 	}
@@ -32,5 +37,32 @@ public class InterstellartransportsystemApplication {
 		}
 	}
 
-	//TO DO: ADD GETTERS AND SETTER FUNCTIONS
+	private void queryForPlanetById(PlanetsDAO planetsDAO) {
+			Planets planet = planetsDAO.findById(1);
+			System.out.println("Found planet: " + planet.getName());
+	}
+
+	private void createPlanet(PlanetsDAO planetsDAO) {
+		//create the new planet object
+		//node //name
+		System.out.println("Creating new planet object...");
+		Planets tempPlanet = new Planets("L'", "Gilese 777" );
+
+		System.out.println("saving the planet...");
+		planetsDAO.save(tempPlanet);
+
+		//display id of the saved student
+		System.out.println("saved student, generated id: " + tempPlanet.getId());
+	}
+
+//	private void updatePlanet(planetsDAO planetsDAO) {
+//		System.out.println("Updating planet");
+//		//TO DO: add update function
+//	}
+//
+//	private void deletePlanet(planetsDAO planetsDAO){
+//		System.out.println("Deleting planet");
+//	}
+
+	//TO DO: Add crud functions for routes
 }

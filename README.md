@@ -10,9 +10,9 @@ To start up front end
 
 A few ways you could start the backend
 - cd interstellartransportsystem
--- in VS code in you have Spring Boot Dashbaord, you can click run/play on the interstellartransportsystem
--- in VS code on the command line, run 
--- in any JAVA IDE you can click run/play to start project
+    - in VS code in you have Spring Boot Dashbaord, you can click run/play on the interstellartransportsystem
+    - in VS code on the command line, run 
+    - in any JAVA IDE you can click run/play to start project
 
 ## Built With
 * Angular 

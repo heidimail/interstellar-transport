@@ -1,0 +1,29 @@
+<!-- TODO: make styling better -->
+<div class="m-3"><strong>All Routes Travelled</strong></div>
+<table class="w-100">
+  <thead>
+    <tr>
+      <th>Destination</th>
+      <th>Total Distance</th>
+      <th>Planets on Route</th>
+      <th>Calculated On</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (routeTravelled of routesTravelledService.routesTravelled(); track routeTravelled.id) {
+      <tr>
+         <td>{{ routeTravelled.planetDestinationName }}</td>
+        <td>{{ routeTravelled.totalDistance }} Light Years</td>
+        <td>
+          @for (planet of routeTravelled.planetNamesOnRoute?.split(','); track $index; let last = $last) {
+            <span class="route-node">{{ planet }}</span>
+            @if (!last) { <span class="route-arrow">, </span> }
+          }
+        </td>
+        <td>{{ routeTravelled.createdAt | date:'short' }}</td>
+      </tr>
+    } @empty {
+      <tr><td colspan="4">No routes travelled yet.</td></tr>
+    }
+  </tbody>
+</table>

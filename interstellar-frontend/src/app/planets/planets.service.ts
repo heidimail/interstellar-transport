@@ -11,7 +11,6 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 })
 export class PlanetsService {
   private planetsUrl: string = 'http://localhost:8080/planets';
-  //Add planetsSubject to make observable for planets$ to be used in multiple components. This is to avoid multiple calls to backend for same data.
   private planetsSubject = new BehaviorSubject<Planet[]>([]);
   public planets$ = this.planetsSubject.asObservable();
   public planetsRoute: Planet[] = [];
@@ -48,7 +47,6 @@ export class PlanetsService {
   //Since all planets and routes are loaded initially, I am filtering in frontend instead
   public findPlanetsByNodes(nodes: string[]): Planet[] {
   const allPlanets = this.planetsSubject.getValue();
-  //map so planets are in the correct order...
   const planetMap = new Map(allPlanets.map((p) => [p.node, p]));
   return nodes
     .map((node) => planetMap.get(node))

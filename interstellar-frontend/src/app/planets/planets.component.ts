@@ -4,10 +4,11 @@ import { PlanetsService } from './planets.service';
 import { DistanceForm } from '../distance-form/distance-form';
 import { PlanetsRoute } from './planets-route/planets-route';
 import { Routes } from '../routes/routes.component';
+import { RoutesTravelled } from '../routes-travelled/routes-travelled.component';
 
 @Component({
   selector: 'app-planets',
-  imports: [DistanceForm, AsyncPipe, PlanetsRoute, Routes],
+  imports: [DistanceForm, AsyncPipe, PlanetsRoute, Routes, RoutesTravelled],
   templateUrl: './planets.html',
   styleUrl: './planets.scss',
 })

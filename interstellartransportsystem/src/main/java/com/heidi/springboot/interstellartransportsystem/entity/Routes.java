@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Table(name="routes")
 public class Routes {
 
-    //map to DB
+    //TO DO: create routes DAO and DAOImpl
 
     //define fields
     @Id

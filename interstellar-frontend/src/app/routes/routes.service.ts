@@ -3,6 +3,7 @@ import { Injectable, signal } from '@angular/core';
 import { Route } from './routes.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/internal/operators/tap';
+import { RoutesTravelledService } from '../routes-travelled/routes-travelled.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,22 +21,26 @@ export class RoutesService {
   public totalDistance = this.totalDistanceSignal.asReadonly();
   public routeTaken = this.routeTakenSignal.asReadonly();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private routesTravelledService: RoutesTravelledService) {
     this.routesUrl = 'http://localhost:8080/routes';
   }
 
   public findAllRoutes(): Observable<Route[]> {
+    //TO DO: add error handling here and in component
     return this.http.get<Route[]>(this.routesUrl).pipe(tap((routes) => this.routes.set(routes)));
   }
 
+  //Currently not used
   public save(route: Route): Observable<Route> {
     return this.http.post<Route>(this.routesUrl, route);
   }
 
+  //currently not used
   public findById(id: number): Observable<Route> {
     return this.http.get<Route>(`${this.routesUrl}/${id}`);
   }
 
+  //TO DO: move find quickest route logic to backend instead
   //TO DO: below gets quickest route. Will need to also figure out quickest distance...
   public findQuickestRoute(planetDestination: string): void {
     this.routeTakenSignal.set([]);
@@ -64,8 +69,7 @@ export class RoutesService {
       endingRoutes.some((end) => end.id === start.id),
     );
     if (directRoute) {
-      this.routeTakenSignal.set([directRoute]);
-      this.addUpRouteDistances([directRoute]);
+      this.finalizeRoute([directRoute]);
       return;
     }
 
@@ -73,8 +77,7 @@ export class RoutesService {
     for (const startRoute of startingRoutes) {
       for (const endRoute of endingRoutes) {
         if (startRoute.planetDestination === endRoute.planetOrigin) {
-          this.routeTakenSignal.set([startRoute, endRoute]);
-          this.addUpRouteDistances([startRoute, endRoute]);
+              this.finalizeRoute([startRoute, endRoute]);
           return;
         }
       }
@@ -127,10 +130,9 @@ export class RoutesService {
       }
       routeTaken.reverse();
 
-      this.routeTakenSignal.set(routeTaken);
-      this.addUpRouteDistances(routeTaken);
+      this.finalizeRoute(routeTaken);
 
-      return; // Stop further processing as we found a route that reaches the destination
+      return;
     }
 
     //re-run through function until a route is found that reaches the destination
@@ -144,5 +146,28 @@ export class RoutesService {
     }
     const total = Math.round(totalDistance * 100) / 100;
     this.totalDistanceSignal.set(total);
+  }
+
+   private finalizeRoute(routeTaken: Route[]): void {
+    this.routeTakenSignal.set(routeTaken);
+    this.addUpRouteDistances(routeTaken);
+    this.persistRouteTravelled(routeTaken);
+  }
+
+  private persistRouteTravelled(routeTaken: Route[]): void {
+    const planetsOnRoute = [
+      routeTaken[0].planetOrigin,
+      ...routeTaken.map((route) => route.planetDestination)
+    ].join(',');
+    this.routesTravelledService
+      .save({
+        planetDestination: this.destinationPlanet,
+        totalDistance: this.totalDistance(),
+        planetsOnRoute
+      })
+      .subscribe({
+        next: () => this.routesTravelledService.findAll().subscribe(),
+        error: (err) => console.error('Failed to save route travelled:', err),
+      });
   }
 }

@@ -11,47 +11,44 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class PlanetsDAOImpl implements PlanetsDAO {
-
+public class RoutesDAOImpl implements RoutesDAO {
     private EntityManager entityManager;
 
     @Autowired
-    public PlanetsDAOImpl(EntityManager entityManager) {
+    public RoutesDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
 
     @Override
     @Transactional
-    public void save(Planets thePlanet) {
-        entityManager.persist(thePlanet);
+    public void save(Routes theRoute) {
+        entityManager.persist(theRoute);
     }
 
     @Override
-    public Planets findById(Integer id) {
-        return entityManager.find(Planets.class, id);
+    public Routes findById(Integer id) {
+        return entityManager.find(Routes.class, id);
     }
 
     @Override
-    public List<Planets> findAll() {
-        TypedQuery<Planets> theQuery = entityManager.createQuery("FROM Planets", Planets.class);
+    public List<Routes> findAll() {
+        TypedQuery<Routes> theQuery = entityManager.createQuery("FROM Routes", Routes.class);
 
         //return query results
         return theQuery.getResultList();
-
-    }
-
-    @Override
-    @Transactional
-    public void update(Planets thePlanet) {
-        entityManager.merge(thePlanet);
     }
 
     @Override
     @Transactional
     public void delete(Integer id) {
-        Planets thePlanet = entityManager.find(Planets.class, id);
-        entityManager.remove(thePlanet);
+        Routes theRoute = entityManager.find(Routes.class, id);
+        entityManager.remove(theRoute);
     }
 
+    @Override
+    @Transactional
+    public void update(Routes theRoute) {
+        entityManager.merge(theRoute);
+    }
 }

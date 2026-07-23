@@ -17,17 +17,15 @@ public class InterstellartransportsystemApplication {
 	}
 
 	@Bean
-	//TO DO: Move these to use later, right now all this happens on app initialization on command line
-	//TO DO: move all functions to restContoller to use in front end.
+	//FOR testing locally
 	public CommandLineRunner commandLineRunner(PlanetsDAO planetsDAO) {
 		return runner -> {
 			//queryForPlanets(planetsDAO);
-			queryForPlanetById(planetsDAO);
+			//queryForPlanetById(planetsDAO);
 			//createPlanet(planetsDAO);
 			//updatePlanet(planetsDAO);
 			//deletePlanet(planetsDAO);
 		};
-
 	}
 
 	private void queryForPlanets(PlanetsDAO planetsDAO) {
@@ -51,18 +49,28 @@ public class InterstellartransportsystemApplication {
 		System.out.println("saving the planet...");
 		planetsDAO.save(tempPlanet);
 
-		//display id of the saved student
-		System.out.println("saved student, generated id: " + tempPlanet.getId());
+		System.out.println("saved planet, generated id: " + tempPlanet.getId());
 	}
 
-//	private void updatePlanet(planetsDAO planetsDAO) {
-//		System.out.println("Updating planet");
-//		//TO DO: add update function
-//	}
-//
-//	private void deletePlanet(planetsDAO planetsDAO){
-//		System.out.println("Deleting planet");
-//	}
+	private void updatePlanet(PlanetsDAO planetsDAO) {
+		System.out.println("Updating planet");
 
-	//TO DO: Add crud functions for routes
+		int planetId = 1;
+		System.out.println("getting planet with id:" + planetId);
+		Planets myPlanet = planetsDAO.findById(planetId);
+
+		System.out.println("updating Planet....");
+		myPlanet.setNode("L'");
+
+		planetsDAO.update(myPlanet);
+
+		System.out.println("updated planet" + myPlanet);
+
+	}
+	private void deletePlanet(PlanetsDAO planetsDAO) {
+		int planetId = 3;
+		System.out.println("deleting planet with id:"+ planetId);
+		planetsDAO.delete(planetId);
+	}
+
 }
